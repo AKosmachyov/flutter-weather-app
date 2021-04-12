@@ -9,7 +9,7 @@ import 'package:weatherflut/model/weather.dart';
 class ApiImpl extends ApiRepository {
   @override
   Future<List<City>> getCities(String text) async {
-    final url = '${api}search/?query=$text';
+    final url = Uri.parse('${api}search/?query=$text');
     final response = await http.get(url);
     final body = Utf8Decoder().convert(response.bodyBytes);
     final data = jsonDecode(body) as List;
@@ -19,7 +19,7 @@ class ApiImpl extends ApiRepository {
 
   @override
   Future<City> getWeathers(City city) async {
-    final url = '$api${city.id}';
+    final url = Uri.parse('$api${city.id}');
     final response = await http.get(url);
     final body = Utf8Decoder().convert(response.bodyBytes);
     final data = jsonDecode(body);
