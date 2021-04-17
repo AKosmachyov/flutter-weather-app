@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weatherflut/ui/ui_constants.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -37,7 +38,7 @@ class EmptyWidget extends StatelessWidget {
                     height: 80,
                   ),
                   Text(
-                    'Hola,\nBienvenido',
+                    AppLocalizations.of(context).welcomeTitle,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 34,
@@ -48,7 +49,7 @@ class EmptyWidget extends StatelessWidget {
                     height: 20,
                   ),
                   Text(
-                    'Qué te parece si agregamos\nuna nueva ciudad?',
+                    AppLocalizations.of(context).welcomeText,
                     textAlign: TextAlign.start,
                   ),
                   const SizedBox(
@@ -62,7 +63,7 @@ class EmptyWidget extends StatelessWidget {
                         15.0,
                       ),
                     ),
-                    child: Text('Agregar ciudad'),
+                    child: Text(AppLocalizations.of(context).addCityLabel),
                     onPressed: onTap,
                   ),
                 ],

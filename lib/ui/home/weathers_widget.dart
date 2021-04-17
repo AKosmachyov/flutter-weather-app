@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherflut/model/city.dart';
 import 'package:weatherflut/ui/home/weather_details_widget.dart';
@@ -236,19 +237,19 @@ class WeatherItem extends StatelessWidget {
                 Row(children: [
                   Expanded(
                     child: _WeatherItemDetails(
-                      title: 'Viento',
+                      title: AppLocalizations.of(context).windLabel,
                       value: "${weather.windSpeed.toStringAsFixed(2)} mph",
                     ),
                   ),
                   Expanded(
                     child: _WeatherItemDetails(
-                      title: 'Presión de aire',
+                      title: AppLocalizations.of(context).pressureLabel,
                       value: '${weather.airPressure.toStringAsFixed(2)} mbar',
                     ),
                   ),
                   Expanded(
                     child: _WeatherItemDetails(
-                      title: 'Humedad',
+                      title: AppLocalizations.of(context).humidityLabel,
                       value: '${weather.humidity}%',
                     ),
                   ),
@@ -260,11 +261,11 @@ class WeatherItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _WeatherItemDetails(
-                      title: 'Temp min',
+                      title: AppLocalizations.of(context).tempMinLabel,
                       value: weather.minTemp.toStringAsFixed(2),
                     ),
                     _WeatherItemDetails(
-                      title: 'Temp Max',
+                      title: AppLocalizations.of(context).tempMaxLabel,
                       value: weather.maxTemp.toStringAsFixed(2),
                     ),
                   ],
@@ -282,7 +283,8 @@ class _WeatherItemDetails extends StatelessWidget {
   final String title;
   final String value;
 
-  const _WeatherItemDetails({Key key, this.title, this.value}) : super(key: key);
+  const _WeatherItemDetails({Key key, this.title, this.value})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

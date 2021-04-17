@@ -1,0 +1,30 @@
+{
+    "welcomeTitle": "Hola,\nBienvenido",
+    "welcomeText": "Qué te parece si agregamos\nuna nueva ciudad?",
+    "windLabel": "Viento",
+    "tempMinLabel": "Temp Min",
+    "tempMaxLabel": "Temp Max",
+    "humidityLabel": "Humedad",
+    "pressureLabel": "Presión de aire",
+    "cityListLabel": "Mis ciudades",
+    "confirmationAlertTitle": "Confirmación",
+    "deleteCityAlertMessage": "Seguro que desea eliminar la ciudad {city}?",
+    "@deleteCityAlertMessage": {
+        "type": "text",
+        "placeholders": {
+            "city": {}
+        }
+    },
+    "yes": "SI",
+    "no": "No",
+    "addCityLabel": "Agregar ciudad",
+    "addCityPlaceholder": "Buscar ciudad",
+    "emptyFavoriteCities": "No tienes ciudades :(",
+    "weatherForecastLabel": "Pronóstico de {count} Días",
+    "@weatherForecastLabel": {
+        "type": "number",
+        "placeholders": {
+            "count": {}
+        }
+    }
+}

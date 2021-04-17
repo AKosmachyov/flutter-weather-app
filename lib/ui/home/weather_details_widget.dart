@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherflut/data/data_constants.dart';
 import 'package:weatherflut/model/city.dart';
@@ -22,7 +23,8 @@ class WeatherDetailsWidget extends StatelessWidget {
               height: 30,
             ),
             Text(
-              'Pronóstico de ${city.weathers.length} Días',
+              AppLocalizations.of(context)
+                  .weatherForecastLabel(city.weathers.length),
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 25,
@@ -79,19 +81,19 @@ class WeatherDetailsWidget extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  'Viento',
+                                  AppLocalizations.of(context).windLabel,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Presión de aire',
+                                  AppLocalizations.of(context).pressureLabel,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Humedad',
+                                  AppLocalizations.of(context).humidityLabel,
                                   textAlign: TextAlign.center,
                                 ),
                               ),

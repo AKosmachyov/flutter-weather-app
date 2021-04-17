@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherflut/data/repository/store_repository.dart';
 import 'package:weatherflut/model/city.dart';
@@ -21,15 +22,16 @@ class _CitiesPageState extends State<CitiesPage> {
       barrierDismissible: false,
       builder: (context) => Center(
         child: AlertDialog(
-          title: Text('Confirmación'),
-          content: Text('Seguro que desea eliminar la ciudad ${city.title}?'),
+          title: Text(AppLocalizations.of(context).confirmationAlertTitle),
+          content: Text(
+              AppLocalizations.of(context).deleteCityAlertMessage(city.title)),
           actions: <Widget>[
             OutlineButton(
-              child: Text('NO'),
+              child: Text(AppLocalizations.of(context).no),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             OutlineButton(
-              child: Text('SI'),
+              child: Text(AppLocalizations.of(context).yes),
               onPressed: () => Navigator.of(context).pop(true),
             )
           ],
@@ -98,12 +100,13 @@ class _CitiesPageState extends State<CitiesPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   HeaderWidget(
-                    title: 'Mis ciudades',
+                    title: AppLocalizations.of(context).cityListLabel,
                   ),
                   Expanded(
                     child: bloc.cities.isEmpty
                         ? Center(
-                            child: Text('No tienes ciudades :('),
+                            child: Text(AppLocalizations.of(context)
+                                .emptyFavoriteCities),
                           )
                         : ListView.builder(
                             padding: const EdgeInsets.only(

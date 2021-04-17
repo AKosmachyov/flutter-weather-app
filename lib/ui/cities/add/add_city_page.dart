@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherflut/data/repository/api_repository.dart';
 import 'package:weatherflut/data/repository/store_repository.dart';
@@ -51,7 +52,7 @@ class _AddCityPageState extends State<AddCityPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 HeaderWidget(
-                  title: 'Agregar ciudad',
+                  title: AppLocalizations.of(context).addCityLabel,
                 ),
                 const SizedBox(
                   height: 15,
@@ -64,7 +65,7 @@ class _AddCityPageState extends State<AddCityPage> {
                       focusedBorder: InputBorder.none,
                       border: InputBorder.none,
                       filled: true,
-                      hintText: 'Buscar ciudad',
+                      hintText: AppLocalizations.of(context).addCityPlaceholder,
                       fillColor: Colors.grey[200],
                       prefixIcon: Icon(
                         Icons.search,
