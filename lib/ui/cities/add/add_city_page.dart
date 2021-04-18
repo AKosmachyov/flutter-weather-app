@@ -89,7 +89,7 @@ class _AddCityPageState extends State<AddCityPage> {
                       final city = bloc.cities[index];
                       return ListTile(
                         title: Text(
-                          city.title,
+                          city.getFullTitle(),
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                           ),

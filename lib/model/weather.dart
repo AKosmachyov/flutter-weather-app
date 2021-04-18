@@ -20,14 +20,11 @@ class Weather {
     this.maxTemp,
     this.theTemp,
     this.windSpeed,
-    this.windDirection,
     this.airPressure,
     this.humidity,
-    this.visibility,
-    this.predictability,
   });
 
-  int id;
+  String id;
   String weatherStateName;
   String weatherStateAbbr;
   String windDirectionCompass;
@@ -37,29 +34,22 @@ class Weather {
   double maxTemp;
   double theTemp;
   double windSpeed;
-  double windDirection;
   double airPressure;
   num humidity;
-  double visibility;
-  int predictability;
 
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
-        id: json["id"],
-        weatherStateName: json["weather_state_name"],
-        weatherStateAbbr: json["weather_state_abbr"],
-        windDirectionCompass: json["wind_direction_compass"],
-        created: DateTime.parse(json["created"]),
-        applicableDate: DateTime.parse(json["applicable_date"]),
-        minTemp: json["min_temp"].toDouble(),
-        maxTemp: json["max_temp"].toDouble(),
-        theTemp: json["the_temp"].toDouble(),
-        windSpeed: json["wind_speed"].toDouble(),
-        windDirection: json["wind_direction"].toDouble(),
-        airPressure: json["air_pressure"],
-        humidity: json["humidity"],
-        visibility: json["visibility"].toDouble(),
-        predictability: json["predictability"],
-      );
+      id: json["id"],
+      weatherStateName: json["weather_state_name"],
+      weatherStateAbbr: json["weather_state_abbr"],
+      windDirectionCompass: json["wind_direction_compass"],
+      created: DateTime.parse(json["created"]),
+      applicableDate: DateTime.parse(json["applicable_date"]),
+      minTemp: json["min_temp"].toDouble(),
+      maxTemp: json["max_temp"].toDouble(),
+      theTemp: json["the_temp"].toDouble(),
+      windSpeed: json["wind_speed"].toDouble(),
+      airPressure: json["air_pressure"],
+      humidity: json["humidity"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -73,10 +63,20 @@ class Weather {
         "max_temp": maxTemp,
         "the_temp": theTemp,
         "wind_speed": windSpeed,
-        "wind_direction": windDirection,
         "air_pressure": airPressure,
-        "humidity": humidity,
-        "visibility": visibility,
-        "predictability": predictability,
+        "humidity": humidity
       };
+}
+
+enum WeatherStateAbbr {
+  sn, // Snow
+  sl, // Sleet
+  h, // Hail
+  t, // Thunderstorm,
+  hr, // Heavy Rain
+  lr, // Light Rain
+  s, // Showers
+  hc, // Heavy Cloud
+  lc, // Light Cloud
+  c, // Clear
 }

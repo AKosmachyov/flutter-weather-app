@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       animation: bloc,
       builder: (context, child) {
         return Scaffold(
-          body: bloc.cities.isEmpty
+          body: bloc.cities
+                  .where((city) =>
+                      city.weathers != null && city.weathers.isNotEmpty)
+                  .isEmpty
               ? bloc.loading
                   ? Center(child: LoaderWidget())
                   : EmptyWidget(

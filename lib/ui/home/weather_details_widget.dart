@@ -67,11 +67,18 @@ class WeatherDetailsWidget extends StatelessWidget {
                                 ),
                                 Spacer(),
                                 Text(
-                                  '${weather.theTemp.toInt().toString()}°C',
+                                  '${weather.maxTemp.toInt().toString()}°',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 17,
                                   ),
+                                ),
+                                Text(
+                                  ' ${weather.minTemp.toInt().toString()}°C',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 17,
+                                      color: Colors.grey[400]),
                                 ),
                               ],
                             ),

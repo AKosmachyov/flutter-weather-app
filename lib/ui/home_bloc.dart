@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherflut/data/repository/api_repository.dart';
@@ -19,13 +21,18 @@ class HomeBloc extends ChangeNotifier {
     final now = DateTime.now();
     final localCities = await storage.getCities();
     if (localCities.isEmpty) return;
-    if (lastUpdate == null || (formatDate.format(now) != formatDate.format(lastUpdate))) {
+    if (lastUpdate == null ||
+        (formatDate.format(now) != formatDate.format(lastUpdate))) {
       List<City> citiesUpdated = [];
       loading = true;
       notifyListeners();
       for (City city in localCities) {
-        final cityUpdated = await apiService.getWeathers(city);
-        citiesUpdated.add(cityUpdated);
+        try {
+          final cityUpdated = await apiService.getWeathers(city);
+          citiesUpdated.add(cityUpdated);
+        } catch (err) {
+          log('Update city failed:', error: err);
+        }
       }
       await storage.saveCities(citiesUpdated);
       await storage.saveLastUpdate();

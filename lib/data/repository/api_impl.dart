@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:uuid/uuid.dart';
 import 'package:weatherflut/data/data_constants.dart';
 import 'package:weatherflut/data/repository/api_repository.dart';
 import 'package:weatherflut/model/city.dart';
@@ -13,13 +14,18 @@ class ApiImpl extends ApiRepository {
     final response = await http.get(url);
     final body = Utf8Decoder().convert(response.bodyBytes);
     final data = jsonDecode(body) as List;
-    final cities = data.map((e) => City.fromJson(e)).toList();
+    final cities = data.map((e) {
+      return City(
+          id: Uuid().v4().toString(),
+          remoteId: e['woeid'].toString(),
+          title: e['title']);
+    }).toList();
     return cities;
   }
 
   @override
   Future<City> getWeathers(City city) async {
-    final url = Uri.parse('$api${city.id}');
+    final url = Uri.parse('$api${city.remoteId}');
     final response = await http.get(url);
     final body = Utf8Decoder().convert(response.bodyBytes);
     final data = jsonDecode(body);

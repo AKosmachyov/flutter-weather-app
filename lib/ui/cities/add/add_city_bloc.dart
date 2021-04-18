@@ -20,7 +20,7 @@ class AddCityBloc extends ChangeNotifier {
   void onChangedText(String text) {
     debouncer.run(
       () {
-        if (text.isNotEmpty) requestSearch(text);
+        if (text.length > 1) requestSearch(text);
       },
     );
   }
