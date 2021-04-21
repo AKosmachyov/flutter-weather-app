@@ -60,27 +60,26 @@ class BBCProvider extends ApiRepository {
         await Future.wait([http.get(currentWeatherUrl), http.get(forecastUrl)]);
 
     if (responses.every((res) => res.statusCode == 200)) {
-      final currentDay = _parseCurrentWeather(responses[0].body);
-      var forecast = _parseForecast(responses[1].body);
-      forecast.insert(0, currentDay);
+      final todayForecast = responses[0].body;
+      final forecast3DayResponse = responses[1].body;
+      var forecast = _parseForecast(forecast3DayResponse);
+      _fillWeatherWithCurrentTemp(todayForecast, forecast[0]);
       return city.fromWeathers(forecast);
     } else {
       throw Exception('Failed to fetch forecast');
     }
   }
 
-  Weather _parseCurrentWeather(String data) {
+  void _fillWeatherWithCurrentTemp(String data, Weather weather) {
     final rssFeed = new RssFeed.parse(data);
-    final forecast = rssFeed.items[0];
-    return _parseWeather(forecast, 0);
+    final forecast = rssFeed.items[0].title;
+    weather.theTemp = _parseCurrentTemp(forecast);
   }
 
   List<Weather> _parseForecast(String data) {
     final rssFeed = new RssFeed.parse(data);
-    // 0 position is forecast for today. We skip it, because we load
-    // forecast for day with different request
-    final items = rssFeed.items.sublist(1);
-    var dayNumber = 1;
+    final items = rssFeed.items;
+    var dayNumber = 0;
     return items.map((item) {
       var weather = _parseWeather(item, dayNumber);
       dayNumber++;
@@ -100,15 +99,12 @@ class BBCProvider extends ApiRepository {
 
     final weatherState = _parseStateName(titleRow);
     final weatherStateAbbr = (weatherState == null
-            ? _parseStateAbbr(weatherState)
-            : WeatherStateAbbr.c)
+            ? WeatherStateAbbr.c
+            : _parseStateAbbr(weatherState))
         .toString()
         .split('.')[1];
 
     double currentTemp = -99;
-    if (daysOffset == 0) {
-      currentTemp = _parseCurrentTemp(titleRow);
-    }
     final temperatureRange = _parseTempRange(titleRow);
 
     final windDirectionRegExp = RegExp(r'Wind Direction: (\w+ \w+),');
@@ -173,8 +169,11 @@ class BBCProvider extends ApiRepository {
         return WeatherStateAbbr.c;
       case 'light rain':
         return WeatherStateAbbr.lr;
+      case 'light rain showers':
+      case 'hail showers':
+        return WeatherStateAbbr.s;
       default:
-        print(value);
+        print("Unsupported weather type: " + value);
         return WeatherStateAbbr.c;
     }
   }
