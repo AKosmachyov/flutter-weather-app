@@ -166,12 +166,15 @@ class BBCProvider extends ApiRepository {
         return WeatherStateAbbr.lc;
       case 'sunny intervals':
       case 'sunny':
+      case 'clear sky':
         return WeatherStateAbbr.c;
       case 'light rain':
         return WeatherStateAbbr.lr;
       case 'light rain showers':
       case 'hail showers':
         return WeatherStateAbbr.s;
+      case 'partly cloudy':
+        return WeatherStateAbbr.lc;
       default:
         print("Unsupported weather type: " + value);
         return WeatherStateAbbr.c;

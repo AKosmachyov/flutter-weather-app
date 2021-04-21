@@ -43,7 +43,13 @@ class _WeathersWidgetState extends State<WeathersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final weather = widget.cities[_currentIndex].weathers.first;
+    var index = _currentIndex;
+    if (_currentIndex > widget.cities.length) {
+      index = widget.cities.length - 1;
+    }
+    final city = widget.cities[index];
+    final weather = city.weathers.first;
+
     return Stack(
       fit: StackFit.expand,
       children: [
