@@ -78,13 +78,8 @@ class _CitiesPageState extends State<CitiesPage> {
       animation: bloc,
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
-          ),
+          appBar:
+              headerWidget(title: AppLocalizations.of(context).cityListLabel),
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: FloatingActionButton(
@@ -99,9 +94,6 @@ class _CitiesPageState extends State<CitiesPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  HeaderWidget(
-                    title: AppLocalizations.of(context).cityListLabel,
-                  ),
                   Expanded(
                     child: bloc.cities.isEmpty
                         ? Center(

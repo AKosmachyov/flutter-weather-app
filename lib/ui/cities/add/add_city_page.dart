@@ -39,21 +39,13 @@ class _AddCityPageState extends State<AddCityPage> {
       animation: bloc,
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
-          ),
+          appBar:
+              headerWidget(title: AppLocalizations.of(context).addCityLabel),
           body: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                HeaderWidget(
-                  title: AppLocalizations.of(context).addCityLabel,
-                ),
                 const SizedBox(
                   height: 15,
                 ),
