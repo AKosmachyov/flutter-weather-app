@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherflut/model/city.dart';
+import 'package:weatherflut/model/weather.dart';
 import 'package:weatherflut/ui/home/weather_details_widget.dart';
 import 'package:weatherflut/ui/ui_constants.dart';
 
@@ -233,8 +234,23 @@ class WeatherItem extends StatelessWidget {
           ),
         ),
         Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
+            alignment: Alignment.bottomCenter,
+            child: _BottomCard(weather: weather))
+      ],
+    );
+  }
+}
+
+class _BottomCard extends StatelessWidget {
+  final Weather weather;
+
+  const _BottomCard({Key key, this.weather}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(color: Color.fromRGBO(29, 29, 29, 0.4)),
+        child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -277,11 +293,7 @@ class WeatherItem extends StatelessWidget {
                   ],
                 ),
               ],
-            ),
-          ),
-        ),
-      ],
-    );
+            )));
   }
 }
 
@@ -298,18 +310,21 @@ class _WeatherItemDetails extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(color: Colors.white, shadows: shadows),
+          style: TextStyle(
+              color: Colors.white,
+              shadows: shadows,
+              fontWeight: FontWeight.bold,
+              fontSize: 15),
         ),
         const SizedBox(
           height: 15,
         ),
-        Text(
-          value,
-          style: TextStyle(
-            color: Colors.white,
-            shadows: shadows,
-          ),
-        ),
+        Text(value,
+            style: TextStyle(
+                color: Colors.white,
+                shadows: shadows,
+                fontWeight: FontWeight.bold,
+                fontSize: 15)),
       ],
     );
   }
