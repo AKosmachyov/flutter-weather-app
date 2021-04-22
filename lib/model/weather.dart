@@ -30,26 +30,28 @@ class Weather {
   String windDirectionCompass;
   DateTime created;
   DateTime applicableDate;
-  double minTemp;
-  double maxTemp;
-  double theTemp;
+  int minTemp;
+  int maxTemp;
+  int theTemp;
   double windSpeed;
   double airPressure;
   num humidity;
 
-  factory Weather.fromJson(Map<String, dynamic> json) => Weather(
-      id: json["id"],
-      weatherStateName: json["weather_state_name"],
-      weatherStateAbbr: json["weather_state_abbr"],
-      windDirectionCompass: json["wind_direction_compass"],
-      created: DateTime.parse(json["created"]),
-      applicableDate: DateTime.parse(json["applicable_date"]),
-      minTemp: json["min_temp"].toDouble(),
-      maxTemp: json["max_temp"].toDouble(),
-      theTemp: json["the_temp"].toDouble(),
-      windSpeed: json["wind_speed"].toDouble(),
-      airPressure: json["air_pressure"],
-      humidity: json["humidity"]);
+  factory Weather.fromJson(Map<String, dynamic> json) {
+    return Weather(
+        id: json["id"],
+        weatherStateName: json["weather_state_name"],
+        weatherStateAbbr: json["weather_state_abbr"],
+        windDirectionCompass: json["wind_direction_compass"],
+        created: DateTime.parse(json["created"]),
+        applicableDate: DateTime.parse(json["applicable_date"]),
+        minTemp: json["min_temp"],
+        maxTemp: json["max_temp"],
+        theTemp: json["the_temp"],
+        windSpeed: json["wind_speed"].toDouble(),
+        airPressure: json["air_pressure"],
+        humidity: json["humidity"]);
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -66,6 +68,12 @@ class Weather {
         "air_pressure": airPressure,
         "humidity": humidity
       };
+
+  String getUIMinTemperature() =>
+      minTemp == null ? "-" : minTemp.toStringAsFixed(0);
+
+  String getUIMaxTemperature() =>
+      maxTemp == null ? "-" : maxTemp.toStringAsFixed(0);
 }
 
 enum WeatherStateAbbr {

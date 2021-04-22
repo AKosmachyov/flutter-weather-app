@@ -73,7 +73,7 @@ class BBCProvider extends ApiRepository {
   void _fillWeatherWithCurrentTemp(String data, Weather weather) {
     final rssFeed = new RssFeed.parse(data);
     final forecast = rssFeed.items[0].title;
-    weather.theTemp = _parseCurrentTemp(forecast);
+    weather.theTemp = _parseCurrentTemperature(forecast);
   }
 
   List<Weather> _parseForecast(String data) {
@@ -104,8 +104,7 @@ class BBCProvider extends ApiRepository {
         .toString()
         .split('.')[1];
 
-    double currentTemp = -99;
-    final temperatureRange = _parseTempRange(titleRow);
+    final temperatureRange = _parseTemperatureRange(titleRow);
 
     final windDirectionRegExp = RegExp(r'Wind Direction: (\w+ \w+),');
     final windDirection =
@@ -132,7 +131,7 @@ class BBCProvider extends ApiRepository {
         applicableDate: localDate,
         minTemp: temperatureRange[0],
         maxTemp: temperatureRange[1],
-        theTemp: currentTemp,
+        theTemp: null,
         windSpeed: windSpeed,
         airPressure: pressure,
         humidity: humidity);
@@ -144,20 +143,27 @@ class BBCProvider extends ApiRepository {
     return firstPart.substring(separateIndex + 1).trim();
   }
 
-  List<double> _parseTempRange(String row) {
-    double minTemp = -99;
-    double maxTemp = -99;
+  List<int> _parseTemperatureRange(String row) {
     final matches = _minMaxTempRegExp.allMatches(row);
     if (matches.length == 2) {
-      minTemp = double.parse(matches.elementAt(0).group(1));
-      maxTemp = double.parse(matches.elementAt(1).group(1));
+      final minTemp = int.parse(matches.elementAt(0).group(1));
+      final maxTemp = int.parse(matches.elementAt(1).group(1));
+      return [minTemp, maxTemp];
     }
-    return [minTemp, maxTemp];
+    if (matches.length == 1) {
+      final temp = int.parse(matches.elementAt(0).group(1));
+      if (row.indexOf("Maximum Temperature") > -1) {
+        return [null, temp];
+      } else {
+        return [temp, null];
+      }
+    }
+    return [null, null];
   }
 
-  double _parseCurrentTemp(String row) {
+  int _parseCurrentTemperature(String row) {
     final match = _minMaxTempRegExp.firstMatch(row);
-    return double.parse(match.group(1));
+    return int.parse(match.group(1));
   }
 
   WeatherStateAbbr _parseStateAbbr(String value) {

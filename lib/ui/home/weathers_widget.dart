@@ -268,11 +268,11 @@ class WeatherItem extends StatelessWidget {
                   children: [
                     _WeatherItemDetails(
                       title: AppLocalizations.of(context).tempMinLabel,
-                      value: weather.minTemp.toStringAsFixed(2),
+                      value: weather.getUIMinTemperature(),
                     ),
                     _WeatherItemDetails(
                       title: AppLocalizations.of(context).tempMaxLabel,
-                      value: weather.maxTemp.toStringAsFixed(2),
+                      value: weather.getUIMaxTemperature(),
                     ),
                   ],
                 ),

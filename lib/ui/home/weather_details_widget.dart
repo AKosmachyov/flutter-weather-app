@@ -67,14 +67,14 @@ class WeatherDetailsWidget extends StatelessWidget {
                                 ),
                                 Spacer(),
                                 Text(
-                                  '${weather.maxTemp.toInt().toString()}°',
+                                  '${weather.getUIMaxTemperature()}°',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 17,
                                   ),
                                 ),
                                 Text(
-                                  ' ${weather.minTemp.toInt().toString()}°C',
+                                  ' ${weather.getUIMinTemperature()}°C',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 17,
