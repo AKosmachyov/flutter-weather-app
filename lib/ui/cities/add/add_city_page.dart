@@ -71,6 +71,13 @@ class _AddCityPageState extends State<AddCityPage> {
                     bloc.errorMessage,
                     style: TextStyle(color: Colors.red),
                   ),
+                if (bloc.cities.length == 0 &&
+                    !bloc.loading &&
+                    bloc.errorMessage == null &&
+                    bloc.inputText.length > 2)
+                  Center(
+                      child: Text(AppLocalizations.of(context).emptyCitySearch,
+                          style: TextStyle(color: Colors.grey))),
                 const SizedBox(
                   height: 25,
                 ),

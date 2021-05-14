@@ -9,6 +9,11 @@ import 'package:weatherflut/model/weather.dart';
 
 class ApiImpl extends ApiRepository {
   @override
+  String getDetailsUrl() {
+    return 'https://www.metaweather.com/';
+  }
+
+  @override
   Future<List<City>> getCities(String text) async {
     final url = Uri.parse('${api}search/?query=$text');
     final response = await http.get(url);

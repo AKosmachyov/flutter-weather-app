@@ -11,6 +11,7 @@ class AddCityBloc extends ChangeNotifier {
   List<City> cities = [];
   bool loading = false;
   String errorMessage;
+  String inputText = "";
 
   AddCityBloc({
     @required this.storage,
@@ -18,6 +19,7 @@ class AddCityBloc extends ChangeNotifier {
   });
 
   void onChangedText(String text) {
+    inputText = text;
     debouncer.run(
       () {
         if (text.length > 1) requestSearch(text);
@@ -29,7 +31,12 @@ class AddCityBloc extends ChangeNotifier {
     loading = true;
     notifyListeners();
 
-    cities = await apiService.getCities(text);
+    try {
+      cities = await apiService.getCities(text);
+      errorMessage = null;
+    } on Exception catch (ex) {
+      errorMessage = ex.toString();
+    }
 
     loading = false;
     notifyListeners();

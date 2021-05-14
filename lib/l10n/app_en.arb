@@ -26,5 +26,7 @@
         "placeholders": {
             "count": {}
         }
-    }
+    },
+    "emptyCitySearch": "Сity not found",
+    "openForecastLink": "Forecast on the website"
 }

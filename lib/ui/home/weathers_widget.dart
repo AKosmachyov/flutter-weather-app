@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherflut/model/city.dart';
 import 'package:weatherflut/model/weather.dart';
+import 'package:weatherflut/ui/common/app_webview_widget.dart';
 import 'package:weatherflut/ui/home/weather_details_widget.dart';
 import 'package:weatherflut/ui/ui_constants.dart';
 
@@ -50,6 +51,9 @@ class _WeathersWidgetState extends State<WeathersWidget> {
     }
     final city = widget.cities[index];
     final weather = city.weathers.first;
+    final fileName =
+        (weather?.weatherStateAbbr ?? WeatherStateAbbr.c).toString() + '.jpg';
+    final backgroundImagePath = 'assets/background_states/' + fileName;
 
     return Stack(
       fit: StackFit.expand,
@@ -70,9 +74,9 @@ class _WeathersWidgetState extends State<WeathersWidget> {
               milliseconds: 600,
             ),
             child: Image.asset(
-              'assets/background_states/${weather.weatherStateAbbr}.jpg',
+              backgroundImagePath,
               fit: BoxFit.cover,
-              key: Key(weather.weatherStateAbbr),
+              key: Key(city.id),
             ),
           ),
         ),
@@ -127,115 +131,137 @@ class WeatherItem extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
+  void openWebView(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => AppWebView(city: this.city)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final weather = city.weathers.first;
+
+    var pageContent = [
+      const SizedBox(
+        height: 50,
+      ),
+      Text(
+        city.title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+          shadows: shadows,
+        ),
+      ),
+    ];
+    if (weather != null) {
+      final weatherUI = [
+        Text(
+          format.format(weather.applicableDate),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            shadows: shadows,
+          ),
+        ),
+        const SizedBox(
+          height: 50,
+        ),
+        Align(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TweenAnimationBuilder<int>(
+                tween: IntTween(
+                  begin: 0,
+                  end: weather.theTemp.toInt(),
+                ),
+                duration: const Duration(
+                  milliseconds: 800,
+                ),
+                builder: (context, value, child) {
+                  return Text(
+                    value.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      shadows: shadows,
+                      fontSize: 75,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    '°C',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      shadows: shadows,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          weather.weatherStateName,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            shadows: shadows,
+            fontSize: 22,
+          ),
+        ),
+        TextButton(
+            onPressed: () {
+              openWebView(context);
+            },
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(AppLocalizations.of(context).openForecastLink,
+                  style: TextStyle(color: Colors.white)),
+              Icon(Icons.launch_rounded, color: Colors.white)
+            ]))
+      ];
+      pageContent = pageContent + weatherUI;
+    }
+
     return Stack(
       fit: StackFit.expand,
       children: [
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Text(
-                city.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  shadows: shadows,
-                ),
-              ),
-              Text(
-                format.format(weather.applicableDate),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  shadows: shadows,
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Align(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TweenAnimationBuilder<int>(
-                      tween: IntTween(
-                        begin: 0,
-                        end: weather.theTemp.toInt(),
-                      ),
-                      duration: const Duration(
-                        milliseconds: 800,
-                      ),
-                      builder: (context, value, child) {
-                        return Text(
-                          value.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            shadows: shadows,
-                            fontSize: 75,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          '°C',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            shadows: shadows,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                weather.weatherStateName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  shadows: shadows,
-                  fontSize: 22,
-                ),
-              ),
-              const SizedBox(
-                height: 70,
-              ),
-            ],
+            children: pageContent,
           ),
         ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30.0),
-            child: IconButton(
-              onPressed: onTap,
-              icon: Icon(
-                Icons.keyboard_arrow_up,
-                color: Colors.white,
-                size: 50,
-              ),
-            ),
-          ),
+        const SizedBox(
+          height: 70,
         ),
         Align(
             alignment: Alignment.bottomCenter,
-            child: _BottomCard(weather: weather))
+            child: Column(
+              children: [
+                IconButton(
+                  onPressed: onTap,
+                  icon: Icon(
+                    Icons.keyboard_arrow_up,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+                _BottomCard(weather: weather)
+              ],
+              mainAxisAlignment: MainAxisAlignment.end,
+            ))
       ],
     );
   }

@@ -13,6 +13,11 @@ class BBCProvider extends ApiRepository {
   final _minMaxTempRegExp = RegExp(r'(\d+)..C');
 
   @override
+  String getDetailsUrl() {
+    return 'https://www.bbc.com/weather/';
+  }
+
+  @override
   Future<List<City>> getCities(String text) async {
     final params = {
       'api_key': 'AGbFAKx58hyjQScCXIYrxuEwJh2W2cmv',
@@ -181,6 +186,8 @@ class BBCProvider extends ApiRepository {
         return WeatherStateAbbr.s;
       case 'partly cloudy':
         return WeatherStateAbbr.lc;
+      case 'thundery showers':
+        return WeatherStateAbbr.t;
       default:
         print("Unsupported weather type: " + value);
         return WeatherStateAbbr.c;
