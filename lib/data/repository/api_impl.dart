@@ -9,8 +9,8 @@ import 'package:weatherflut/model/weather.dart';
 
 class ApiImpl extends ApiRepository {
   @override
-  String getDetailsUrl() {
-    return 'https://www.metaweather.com/';
+  String getDetailsUrl(City city) {
+    return 'https://www.metaweather.com/' + city.remoteId;
   }
 
   @override

@@ -13,8 +13,8 @@ class BBCProvider extends ApiRepository {
   final _minMaxTempRegExp = RegExp(r'(\d+)..C');
 
   @override
-  String getDetailsUrl() {
-    return 'https://www.bbc.com/weather/';
+  String getDetailsUrl(City city) {
+    return 'https://www.bbc.com/weather/' + city.remoteId;
   }
 
   @override

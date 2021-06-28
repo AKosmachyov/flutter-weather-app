@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weatherflut/data/repository/api_repository.dart';
 import 'package:weatherflut/model/city.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -28,7 +29,7 @@ class AppWebViewState extends State<AppWebView> {
   @override
   Widget build(BuildContext context) {
     final city = widget.city;
-    final url = repository.getDetailsUrl() + city.remoteId;
+    final url = repository.getDetailsUrl(city);
     return Scaffold(
       appBar: AppBar(
         title: Text(city.getFullTitle()),
